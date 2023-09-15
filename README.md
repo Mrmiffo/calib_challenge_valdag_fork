@@ -4,6 +4,8 @@
 
 `pip install -r requirements.txt`
 
+Show a video with the label line using `python main.py 1` where "1" is the video id.
+
 
 Welcome to the comma.ai Calibration Challenge!
 ======
