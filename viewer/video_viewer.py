@@ -50,6 +50,8 @@ class VideoViewer():
             
         if show_label:
             frame_labels = self.read_labels()
+            print(f"Pitch max degees: {max([math.degrees(f[0]) for f in frame_labels])}\xb0")
+            print(f"Yaw max degrees: {max([math.degrees(f[1]) for f in frame_labels])}\xb0")
 
  
         # Read until video is completed
@@ -66,7 +68,6 @@ class VideoViewer():
                     # Don't try to show a line if there are no labels for the frame.
                     if not math.isnan(frame_label[0]) and not math.isnan(frame_label[1]):
                         center_screen = (int(frame.shape[1]/2), int(frame.shape[0]/2))
-
                         # Convert the pitch and yaw radians to points on a unit circle
                         pitch_point, yaw_point = self.frame_rad_to_point(frame_label)
                         # Take the y coordinate of pitch to be the X coordinate and yaw y coordinate to be the Y coordinate
