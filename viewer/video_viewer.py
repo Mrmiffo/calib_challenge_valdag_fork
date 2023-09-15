@@ -52,10 +52,10 @@ class VideoViewer():
 
                         # Convert the pitch and yaw radiance to points on a unit circle
                         pitch_point, yaw_point = self.frame_rad_to_point(frame_label)
-                        # Take the y coordinate of pitch to be the X coordinate and yaw to be the Y coordinate
+                        # Take the y coordinate of pitch to be the X coordinate and yaw y coordinate to be the Y coordinate
                         # Increase the length of the line arbitrarily
                         target_point = (int(yaw_point[1]*LINE_LENGTH), int(pitch_point[1]*LINE_LENGTH))
-                        final_target = (center_screen[0]-target_point[0], center_screen[1]-target_point[1])
+                        final_target = (center_screen[0]+target_point[0], center_screen[1]+target_point[1])
 
                         frame = cv2.line(frame, center_screen, final_target, LINE_COLOR, LINE_WIDTH)
                 # Display the resulting frame
