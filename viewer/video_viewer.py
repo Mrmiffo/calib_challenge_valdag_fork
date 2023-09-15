@@ -20,6 +20,7 @@ class VideoViewer():
         return ([(float(f[0]), float(f[1])) for f in [fs.split(" ", 2) for fs in frame_labels]])
 
     def frame_rad_to_point(self, frame_label):
+        """ Converts the pitch and yaw radians to points on a unit circle. Return a tuple with pitch and yaw as ((pitch_x, pitch_y), (yaw_x, yaw_y))"""
         pitch = (math.cos(frame_label[0]), math.sin(frame_label[0]))
         yaw = (math.cos(frame_label[1]), math.sin(frame_label[1]))
         return (pitch, yaw)
@@ -47,16 +48,18 @@ class VideoViewer():
                 if show_label:
                     # Get the label of the current frame
                     frame_label = frame_labels[frame_id]
+                    # Don't try to show a line if there are no labels for the frame.
                     if not math.isnan(frame_label[0]) and not math.isnan(frame_label[1]):
                         center_screen = (int(frame.shape[1]/2), int(frame.shape[0]/2))
 
-                        # Convert the pitch and yaw radiance to points on a unit circle
+                        # Convert the pitch and yaw radians to points on a unit circle
                         pitch_point, yaw_point = self.frame_rad_to_point(frame_label)
                         # Take the y coordinate of pitch to be the X coordinate and yaw y coordinate to be the Y coordinate
                         # Increase the length of the line arbitrarily
                         target_point = (int(yaw_point[1]*LINE_LENGTH), int(pitch_point[1]*LINE_LENGTH))
                         final_target = (center_screen[0]+target_point[0], center_screen[1]+target_point[1])
 
+                        # Add the line to the frame
                         frame = cv2.line(frame, center_screen, final_target, LINE_COLOR, LINE_WIDTH)
                 # Display the resulting frame
                 cv2.imshow(self.video_name,frame)
