@@ -38,7 +38,7 @@ class VideoViewer():
 
  
         # Read until video is completed
-        print("Opening recording in seperate window. Press 'q' to exit.")
+        print("Opening recording in seperate window. Press 'q' to exit, 'p' to pause.")
         frame_id = 0
         while(cap.isOpened()):
             # Capture frame-by-frame
@@ -64,9 +64,13 @@ class VideoViewer():
                 # Display the resulting frame
                 cv2.imshow(self.video_name,frame)
             
-                # Press Q on keyboard to  exit
-                if cv2.waitKey(25) & 0xFF == ord('q'):
+                key = cv2.waitKey(20)
+                if key == ord('q'):
+                    # "Press 'q' to quit
                     break
+                if key == ord('p'):
+                    # Press 'p' to Pause
+                    cv2.waitKey(-1) #wait until any key is pressed
             
             # Break the loop
             else: 
