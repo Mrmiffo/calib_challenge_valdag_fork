@@ -4,7 +4,7 @@ import math
 
 LINE_COLOR = (0,0,255)
 LINE_WIDTH = 3
-LINE_LENGTH = 1000
+LINE_LENGTH = 750
 
 class VideoViewer():
 
@@ -57,7 +57,7 @@ class VideoViewer():
                         # Take the y coordinate of pitch to be the X coordinate and yaw y coordinate to be the Y coordinate
                         # Increase the length of the line arbitrarily
                         target_point = (int(yaw_point[1]*LINE_LENGTH), int(pitch_point[1]*LINE_LENGTH))
-                        final_target = (center_screen[0]+target_point[0], center_screen[1]+target_point[1])
+                        final_target = (center_screen[0]+target_point[0], center_screen[1]-target_point[1])
 
                         # Add the line to the frame
                         frame = cv2.line(frame, center_screen, final_target, LINE_COLOR, LINE_WIDTH)
