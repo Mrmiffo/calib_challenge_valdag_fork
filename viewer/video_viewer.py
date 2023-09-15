@@ -61,6 +61,7 @@ class VideoViewer():
 
                         # Add the line to the frame
                         frame = cv2.line(frame, center_screen, final_target, LINE_COLOR, LINE_WIDTH)
+                        frame = cv2.circle(frame, center_screen, radius=5, color=LINE_COLOR, thickness=-1)
                 # Display the resulting frame
                 cv2.imshow(self.video_name,frame)
             
