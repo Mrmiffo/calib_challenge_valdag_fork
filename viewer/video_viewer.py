@@ -5,6 +5,9 @@ import math
 LINE_COLOR = (0,0,255)
 LINE_WIDTH = 3
 LINE_LENGTH = 750
+PITCH_IND_CENTER = (100, 100)
+YAW_IND_CENTER = (300, 100)
+IND_COLOR = (255,0,0)
 
 class VideoViewer():
 
@@ -24,6 +27,18 @@ class VideoViewer():
         pitch = (math.cos(frame_label[0]), math.sin(frame_label[0]))
         yaw = (math.cos(frame_label[1]), math.sin(frame_label[1]))
         return (pitch, yaw)
+    
+    def add_indicator(self, frame, center, current_value, name):
+        IND_SIZE = 100
+        """ Adds a small unit circle graph to the frame indicating the value (pitch, or yaw) provided. """
+        frame = cv2.line(frame, center, (center[0]+IND_SIZE, center[1]), color=IND_COLOR, thickness=1)
+        frame = cv2.line(frame, center, (center[0]-IND_SIZE, center[1]), color=IND_COLOR, thickness=1)
+        frame = cv2.line(frame, center, (center[0], center[1]+IND_SIZE), color=IND_COLOR, thickness=1)
+        frame = cv2.line(frame, center, (center[0], center[1]-IND_SIZE), color=IND_COLOR, thickness=1)
+        frame = cv2.line(frame, center, (center[0]+int(current_value[0]*IND_SIZE), center[1]-int(current_value[1]*IND_SIZE)), color=LINE_COLOR, thickness=2)
+        frame = cv2.putText(frame, name, (center[0]-20, center[1]+115), cv2.FONT_HERSHEY_PLAIN, fontScale=1, color=IND_COLOR)
+        return frame
+
     
     def show_video(self, show_label=True):
         # Create a VideoCapture object and read from input file
@@ -59,9 +74,11 @@ class VideoViewer():
                         target_point = (int(yaw_point[1]*LINE_LENGTH), int(pitch_point[1]*LINE_LENGTH))
                         final_target = (center_screen[0]+target_point[0], center_screen[1]-target_point[1])
 
-                        # Add the line to the frame
+                        # Add the line to the frame indicating the pitch and yaw from the center of the screen
                         frame = cv2.line(frame, center_screen, final_target, LINE_COLOR, LINE_WIDTH)
                         frame = cv2.circle(frame, center_screen, radius=5, color=LINE_COLOR, thickness=-1)
+                        frame = self.add_indicator(frame, PITCH_IND_CENTER, pitch_point, "Pitch")
+                        frame = self.add_indicator(frame, YAW_IND_CENTER, yaw_point, "Yaw")
                 # Display the resulting frame
                 cv2.imshow(self.video_name,frame)
             
